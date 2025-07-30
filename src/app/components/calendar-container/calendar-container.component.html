@@ -7,18 +7,24 @@
         (changePeriod)="changePeriodAction($event)"
         [flagDate]="flagDateSignal()"
       ></app-calendar-header>
-      <table>
+      <table class="table-container">
         <tbody>
             @for (week of monthWeeks; track week.label) {
                 <tr>
                     @for (day of week.beforeMonth; track day) {
-                        <th>{{day}}</th>
+                        <th>
+                            <app-calendar-cell [date]="day" mode="outOfMonth" (dateClicked)="selectDate($event)"></app-calendar-cell>
+                        </th>
                     }
                     @for (day of week.inMonth; track day) {
-                        <th>{{day}}</th>
+                        <th>
+                            <app-calendar-cell [date]="day" (dateClicked)="selectDate($event)"></app-calendar-cell>
+                        </th>
                     }
                     @for (day of week.afterMonth; track day) {
-                        <th>{{day}}</th>
+                        <th>
+                            <app-calendar-cell [date]="day" mode="outOfMonth" (dateClicked)="selectDate($event)"></app-calendar-cell>
+                        </th>
                     }
                 </tr>
             }

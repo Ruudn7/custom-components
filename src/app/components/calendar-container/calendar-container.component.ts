@@ -22,6 +22,7 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { MonthWeek } from './calendar.interface';
 import { buildMonthWeeks } from './utils';
+import { CalendarCellComponent } from './calendar-cell/calendar-cell.component';
 
 dayjs.extend(isoWeek);
 
@@ -34,6 +35,7 @@ dayjs.extend(isoWeek);
     NativeDateModule,
     MatCardModule,
     CalendarHeaderComponent,
+    CalendarCellComponent
   ],
   providers: [
     provideNativeDateAdapter(),
@@ -75,6 +77,10 @@ export class CalendarContainerComponent implements AfterViewInit {
         dayjs(prevDate).add(1, 'month').startOf('month').toDate()
       );
     }
+  }
+
+  public selectDate(date: Date) {
+    console.log(date)
   }
 
 }
