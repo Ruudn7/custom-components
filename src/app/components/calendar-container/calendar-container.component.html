@@ -7,6 +7,23 @@
         (changePeriod)="changePeriodAction($event)"
         [flagDate]="flagDateSignal()"
       ></app-calendar-header>
+      <table>
+        <tbody>
+            @for (week of monthWeeks; track week.label) {
+                <tr>
+                    @for (day of week.beforeMonth; track day) {
+                        <th>{{day}}</th>
+                    }
+                    @for (day of week.inMonth; track day) {
+                        <th>{{day}}</th>
+                    }
+                    @for (day of week.afterMonth; track day) {
+                        <th>{{day}}</th>
+                    }
+                </tr>
+            }
+        </tbody>
+      </table>
         <!-- <mat-calendar [dateClass]="dateClass" [selected]="selectedDate()" (selectedChange)="changeDate($event)"
             [headerComponent]="calendarHeader"></mat-calendar> -->
     </div>

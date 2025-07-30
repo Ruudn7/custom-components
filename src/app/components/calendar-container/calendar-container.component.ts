@@ -20,6 +20,8 @@ import { DATE_FORMATS } from './date-formats.consts';
 import { PolishFullDayAdapter } from './day-adapter';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
+import { MonthWeek } from './calendar.interface';
+import { buildMonthWeeks } from './utils';
 
 dayjs.extend(isoWeek);
 
@@ -43,6 +45,7 @@ dayjs.extend(isoWeek);
 export class CalendarContainerComponent implements AfterViewInit {
   public flagDateSignal: WritableSignal<Date> = signal(new Date());
   public mode: 'month' | 'week' = 'month';
+  public monthWeeks: MonthWeek[] = [];
 
   constructor(
     private dateAdapter: DateAdapter<Date>,
@@ -51,8 +54,8 @@ export class CalendarContainerComponent implements AfterViewInit {
     this.dateAdapter.setLocale('pl-PL');
 
     effect(() => {
-      this.getAllDaysInMonth(this.flagDateSignal());
-      console.log(this.getWeekRangeInMonth(this.flagDateSignal()))
+      console.log(buildMonthWeeks(this.flagDateSignal()));
+      this.monthWeeks = buildMonthWeeks(this.flagDateSignal());
     });
   }
 
@@ -74,60 +77,4 @@ export class CalendarContainerComponent implements AfterViewInit {
     }
   }
 
-  private getAllDaysInMonth(baseDate: Date): Date[] {
-    const start = dayjs(baseDate).startOf('month');
-    const end = dayjs(baseDate).endOf('month');
-
-    const days: Date[] = [];
-    let current = start;
-
-    while (current.isBefore(end) || current.isSame(end, 'day')) {
-      days.push(current.toDate());
-      current = current.add(1, 'day');
-    }
-
-    console.log(days.length);
-    return days;
-  }
-
-  getWeekRangeInMonth(date: Date): {
-    fullWeek: Date[];
-    inMonth: Date[];
-    beforeMonth: Date[];
-    afterMonth: Date[];
-  } {
-    const target = dayjs(date);
-    const month = target.month();
-    const weekStart = target.startOf('isoWeek');
-    const weekEnd = target.endOf('isoWeek');
-
-    const fullWeek: Date[] = [];
-    const inMonth: Date[] = [];
-    const beforeMonth: Date[] = [];
-    const afterMonth: Date[] = [];
-
-    let current = weekStart;
-
-    while (current.isBefore(weekEnd) || current.isSame(weekEnd, 'day')) {
-      const d = current.toDate();
-      fullWeek.push(d);
-
-      if (current.month() === month) {
-        inMonth.push(d);
-      } else if (current.isBefore(target.startOf('month'))) {
-        beforeMonth.push(d);
-      } else {
-        afterMonth.push(d);
-      }
-
-      current = current.add(1, 'day');
-    }
-
-    return {
-      fullWeek,
-      inMonth,
-      beforeMonth,
-      afterMonth,
-    };
-  }
 }
