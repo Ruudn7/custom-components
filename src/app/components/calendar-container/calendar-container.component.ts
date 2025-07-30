@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   Renderer2,
   signal,
@@ -23,6 +24,7 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import { MonthWeek } from './calendar.interface';
 import { buildMonthWeeks } from './utils';
 import { CalendarCellComponent } from './calendar-cell/calendar-cell.component';
+import { WeekByDatePipe } from './pipe/week-by-date.pipe';
 
 dayjs.extend(isoWeek);
 
@@ -35,7 +37,8 @@ dayjs.extend(isoWeek);
     NativeDateModule,
     MatCardModule,
     CalendarHeaderComponent,
-    CalendarCellComponent
+    CalendarCellComponent,
+    WeekByDatePipe
   ],
   providers: [
     provideNativeDateAdapter(),
@@ -48,6 +51,12 @@ export class CalendarContainerComponent implements AfterViewInit {
   public flagDateSignal: WritableSignal<Date> = signal(new Date());
   public mode: 'month' | 'week' = 'month';
   public monthWeeks: MonthWeek[] = [];
+
+  public weekPeriodVisibleIndex = computed(() => {
+    this.monthWeeks.find(el => el.fullWeek.some(el => this.isSameDate(el, this.flagDateSignal())));
+      return this.monthWeeks.findIndex(el => el.fullWeek.some(el => this.isSameDate(el, this.flagDateSignal())))
+    
+  })
 
   constructor(
     private dateAdapter: DateAdapter<Date>,
@@ -68,19 +77,53 @@ export class CalendarContainerComponent implements AfterViewInit {
   }
 
   public changePeriodAction(direction = 'prev') {
-    if (direction === 'prev') {
-      this.flagDateSignal.update((prevDate) =>
-        dayjs(prevDate).add(-1, 'month').startOf('month').toDate()
-      );
+    if (this.mode === 'month') {
+      if (direction === 'prev') {
+        this.flagDateSignal.update((prevDate) =>
+          dayjs(prevDate).add(-1, 'month').startOf('month').toDate()
+        );
+      } else {
+        this.flagDateSignal.update((prevDate) =>
+          dayjs(prevDate).add(1, 'month').startOf('month').toDate()
+        );
+      }
     } else {
-      this.flagDateSignal.update((prevDate) =>
-        dayjs(prevDate).add(1, 'month').startOf('month').toDate()
-      );
+      if (direction === 'prev') {
+        this.flagDateSignal.update((prevDate) =>
+          dayjs(prevDate).add(-1, 'week').startOf('isoWeek').toDate()
+        );
+      } else {
+        this.flagDateSignal.update((prevDate) =>
+          dayjs(prevDate).add(1, 'week').startOf('isoWeek').toDate()
+        );
+      }
     }
+
   }
 
   public selectDate(date: Date) {
     console.log(date)
   }
+
+  public resetDate(): void {
+    this.flagDateSignal.set(new Date);
+  }
+
+  private isSameDate(date: Date, dateToComapre: Date): boolean {
+  
+    return (
+      date.getDate() === dateToComapre.getDate() &&
+      date.getMonth() === dateToComapre.getMonth() &&
+      date.getFullYear() === dateToComapre.getFullYear()
+    );
+  }
+
+  public changeMode() {
+    this.mode = this.mode === 'month' ? 'week' : 'month';
+  }
+
+  public trackByDate(date: Date): number {
+    return date.getTime();
+  }  
 
 }

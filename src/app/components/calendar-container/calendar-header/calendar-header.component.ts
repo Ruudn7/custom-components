@@ -1,41 +1,46 @@
-import { Component, computed, DestroyRef, effect, EventEmitter, inject, input, Input, InputSignal, OnInit, output, Output, Signal, signal, WritableSignal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  Component,
+  computed,
+  effect,
+  input,
+  InputSignal,
+  output,
+  signal,
+  WritableSignal
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
-import { MatCalendar } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
-import { startWith } from 'rxjs';
 import { MONTHS } from '../date-formats.consts';
-import dayjs from 'dayjs';
 
 @Component({
   selector: 'app-calendar-header',
   imports: [MatIconModule, MatButtonModule],
   templateUrl: './calendar-header.component.html',
-  styleUrl: './calendar-header.component.scss'
+  styleUrl: './calendar-header.component.scss',
 })
 export class CalendarHeaderComponent {
-
   periodLabel: WritableSignal<string> = signal<string>('');
-  flagDate: InputSignal<Date> = input<Date>(new Date);
+  flagDate: InputSignal<Date> = input<Date>(new Date());
   mode = input<'month' | 'week'>('month');
   changePeriod = output<string>();
+  weekLabel = input<string>('');
 
   adjacentMonthNames = computed(() => {
     this.flagDate();
 
-    console.log(this.flagDate())
-  })
+    console.log(this.flagDate());
+  });
 
   constructor() {
     effect(() => {
-      this.periodLabel.set(`${MONTHS[this.flagDate().getMonth()]} ${this.flagDate().getFullYear()}`);
+      this.periodLabel.update(() => {
+        const basic = `${ MONTHS[this.flagDate().getMonth()]} ${this.flagDate().getFullYear()}`;
+        return this.mode() === 'month' ? basic : `${this.weekLabel()} ${basic}`;
+      });
     });
   }
 
   public changePeriodAction(direction = 'prev') {
     this.changePeriod.emit(direction);
   }
-
-
 }
