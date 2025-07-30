@@ -1,0 +1,104 @@
+$white: #ffffff;
+$alabaster: #fafafa;
+$science-blue: #0067ce;
+$malibu: #7fb7ff;
+$denim: #176bdb;
+$indigo: #425fc7;
+$dodger-blue: #4c9aff;
+$sky-dancer: #4294FF;
+$tory-blue: #0d4a9c;
+$bay-of-many: #224284;
+$cello: #204267;
+$st-tropaz: #2d5e90;
+$athens-gray: #e2e5e9;
+$athens-gray-light: #eaeaec;
+$pickled-bluewood: #2b3749;
+$cool-gray: #8f92ae;
+$spun-pearl: #ababb0;
+$abbey: #4f4f53;
+$mine-shaft: #343434;
+$mine-shaft-darker: #232323;
+
+$gray: #8c8c8c;
+$link-water: #d7e3f2;
+$link-water-light: #eff4fa;
+$pale-gray: #f8f8f8;
+$solitude: #f0f3f7;
+$silver: #cbcbcb;
+$mirage: #171c26;
+$code-gray: #1a1a1a;
+$dark-void: #141415;
+$dark-teal: #102335;
+$lima: #54d420;
+$apple: #34a936;
+$fun-green: #008a19;
+$fun-green-darker: #007a1b;
+$salem: #077f36;
+$everglade: #1b4b35;
+$gable-green: #143035;
+$cerise-red: #da2f73;
+$rouge: #a33e64;
+$tawny-port: #762d49;
+$lynch: #607088;
+$fuel-yellow: #f09f2d;
+$wisp-pink: #fce9e9;
+$azalea: #fad5d4;
+$bittersweet: #ff726a;
+$bittersweet-shade: #ff6c64;
+$cinnabar: #e9473f;
+$sunset-orange: #ff4d4f;
+$peach: #ff726a;
+$persimmon: #ff5a5f;
+$alizarin-crimson: #e62d23;
+$thunderbird: #b31917;
+$tamarillo: #861811;
+$maroon-oak: #57110d;
+
+$success: $salem;
+$error: $thunderbird;
+$info: $science-blue;
+$warning: $fuel-yellow;
+
+// light and dark mode colors
+
+$bg-primary_: light-dark($dark-teal, $white);
+$bg-primary-surface: light-dark($white, $mine-shaft-darker);
+$bg-primary: light-dark($pale-gray, $dark-void);
+$bg-primary-hover: light-dark($link-water-light, $abbey);
+$bg-primary-pressed: light-dark($link-water, $mine-shaft);
+
+$bg-secondary-default: light-dark($dark-teal, $white);
+$bg-secondary-hover: light-dark($cello, $spun-pearl);
+$bg-secondary-pressed: light-dark($st-tropaz, $gray);
+$bg-secondary-disabled: light-dark($spun-pearl, $abbey);
+
+$text-normal-primary: light-dark($dark-void, $white);
+$text-normal-secondary: light-dark($abbey, $silver);
+$text-normal-success: light-dark($salem, $apple);
+$text-normal-on-surface: light-dark($white, $dark-void);
+
+$text-link-primary: light-dark($dark-teal, $link-water-light);
+$text-link-hover: light-dark($cello, $athens-gray);
+$personal-button-hover: light-dark($link-water, $mine-shaft);
+$icon-close-button-hover: $abbey;
+
+$border-primary-focus: $sky-dancer;
+$border-color-primary-divider: light-dark($athens-gray, $mine-shaft);
+
+$calendar-timeline-color: light-dark($cello, $mine-shaft);
+
+$box-shadow-header: light-dark(
+  rgba(16, 35, 53, 0.05),
+  rgba(255, 255, 255, 0.05)
+);
+
+
+$breakpoint-sm-footer: 40rem;
+$breakpoint-md-footer: 52.75rem;
+$breakpoint-lg-footer: 75rem;
+
+$breakpoint-sm: 41rem;
+$breakpoint-md: 48rem;
+$breakpoint-lg: 68.75rem;
+$breakpoint-xl: 80rem;
+$breakpoint-xxl: 90rem;

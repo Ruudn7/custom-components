@@ -1,0 +1,38 @@
+@use '../../../../styles/variables.scss';
+
+.calendar-header {
+  --mat-icon-color: #{variables.$text-normal-primary};
+  --mat-sys-on-surface-variant: #{variables.$bg-primary-hover};
+  --mat-sys-hover-state-layer-opacity: 1;
+
+  display: flex;
+  width: 100%;
+  position: relative;
+  margin-bottom: 1rem;
+  padding: 0 12px;
+  box-sizing: border-box;
+  margin-top: 48px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: variables.$athens-gray;
+    margin: 0 12px;
+  }
+
+  &-label {
+    margin: auto;
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-size: 1rem;
+    color: variables.$text-normal-secondary;
+    font-weight: 400;
+  }
+
+  .mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before {
+    background-color: variables.$bg-primary-hover;
+  }
+}

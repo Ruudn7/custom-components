@@ -1,0 +1,13 @@
+<mat-card class="demo-inline-calendar-card">
+    <div class="calendar-container">
+
+    <app-calendar-header
+        [mode]="mode"
+        (goToToday)="goToToday()"
+        (changePeriod)="changePeriodAction($event)"
+        [flagDate]="flagDateSignal()"
+      ></app-calendar-header>
+        <!-- <mat-calendar [dateClass]="dateClass" [selected]="selectedDate()" (selectedChange)="changeDate($event)"
+            [headerComponent]="calendarHeader"></mat-calendar> -->
+    </div>
+</mat-card>
