@@ -1,4 +1,11 @@
-
-<div class="calendat-cell" [class.outOfMonth]="mode() === 'outOfMonth'" [class.isToday]="isToday"  (click)="selectDate()">
-    {{displayDate}}
-</div>
+@if(rangeMode()) {
+    <div appCalendarRangeCell [date]="date()" class="calendat-cell" tabindex="0" [class.outOfMonth]="mode() === 'outOfMonth'" [class.isToday]="isToday"  (click)="selectDate()">
+        {{displayDate}}
+    </div>
+    
+} @else {
+    <div class="calendat-cell" tabindex="0" [class.outOfMonth]="mode() === 'outOfMonth'" [class.isToday]="isToday"  (click)="selectDate()">
+        {{displayDate}}
+    </div>
+    
+}

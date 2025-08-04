@@ -1,8 +1,9 @@
 import { Component, input, InputSignal, output } from '@angular/core';
+import { CalendarRangeCellDirective } from '../directives/calendar-range-cell.directive';
 
 @Component({
   selector: 'app-calendar-cell',
-  imports: [],
+  imports: [CalendarRangeCellDirective],
   templateUrl: './calendar-cell.component.html',
   styleUrl: './calendar-cell.component.scss'
 })
@@ -12,6 +13,7 @@ export class CalendarCellComponent {
   mode: InputSignal<'inMonth' | 'outOfMonth'> = input<'inMonth' | 'outOfMonth'>('inMonth');
 
   dateClicked = output<Date>();
+  rangeMode = input<Boolean>();
 
   get displayDate(): number {
     return this.date().getDate();

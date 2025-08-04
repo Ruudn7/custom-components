@@ -6,3 +6,27 @@
 .isToday {
     border: 1px solid blue;
 }
+
+.calendat-cell {
+    cursor: pointer;
+
+    &:focus, &:active {
+        background-color: yellow;
+    }
+
+    &.inHoverRange {
+        background-color: lightblue;
+    }
+
+    &.inDateRange {
+        background-color: blue;
+    }
+
+    &.selectedStart {
+        border: 2px solid black;
+    }
+
+    &.selectedEnd {
+        border: 2px solid red;
+    }
+}

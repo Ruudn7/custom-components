@@ -5,6 +5,7 @@ import {
   Component,
   computed,
   effect,
+  inject,
   Renderer2,
   signal,
   WritableSignal,
@@ -25,6 +26,8 @@ import { MonthWeek } from './calendar.interface';
 import { buildMonthWeeks } from './utils';
 import { CalendarCellComponent } from './calendar-cell/calendar-cell.component';
 import { WeekByDatePipe } from './pipe/week-by-date.pipe';
+import { CalendarBodyComponent } from './calendar-body/calendar-body.component';
+import { CalendarRangeManageService } from './service/calendar-range-manage.service';
 
 dayjs.extend(isoWeek);
 
@@ -37,13 +40,13 @@ dayjs.extend(isoWeek);
     NativeDateModule,
     MatCardModule,
     CalendarHeaderComponent,
-    CalendarCellComponent,
-    WeekByDatePipe
+    CalendarBodyComponent
   ],
   providers: [
     provideNativeDateAdapter(),
     { provide: DateAdapter, useClass: PolishFullDayAdapter },
     { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
+    CalendarRangeManageService
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -56,7 +59,9 @@ export class CalendarContainerComponent implements AfterViewInit {
     this.monthWeeks.find(el => el.fullWeek.some(el => this.isSameDate(el, this.flagDateSignal())));
       return this.monthWeeks.findIndex(el => el.fullWeek.some(el => this.isSameDate(el, this.flagDateSignal())))
     
-  })
+  });
+
+  private readonly calendarrangeServ = inject(CalendarRangeManageService);
 
   constructor(
     private dateAdapter: DateAdapter<Date>,
@@ -107,6 +112,10 @@ export class CalendarContainerComponent implements AfterViewInit {
 
   public resetDate(): void {
     this.flagDateSignal.set(new Date);
+  }
+
+  public rangeMode(): void {
+    this.calendarrangeServ.setRangeMode(true);
   }
 
   private isSameDate(date: Date, dateToComapre: Date): boolean {

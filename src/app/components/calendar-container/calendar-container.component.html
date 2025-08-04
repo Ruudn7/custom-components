@@ -3,6 +3,8 @@
 
         <button (click)="resetDate()">reset</button>
         <button (click)="changeMode()">cahnge mode</button>
+        <button (click)="rangeMode()">range mode</button>
+
         {{weekPeriodVisibleIndex()}}
     <app-calendar-header
         [mode]="mode"
@@ -11,29 +13,12 @@
         [flagDate]="flagDateSignal()"
         [weekLabel]="monthWeeks[weekPeriodVisibleIndex()].label"
       ></app-calendar-header>
-      <table class="table-container">
-        <tbody>
-            @for (week of monthWeeks | weekByDate:flagDateSignal():mode; track week.label) {
-                <tr>
-                    @for (day of week.beforeMonth; let i = $index; track trackByDate(day)) {
-                        <th>
-                            <app-calendar-cell [date]="day" mode="outOfMonth" (dateClicked)="selectDate($event)"></app-calendar-cell>
-                        </th>
-                    }
-                    @for (day of week.inMonth; let i = $index; track trackByDate(day)) {
-                        <th>
-                            <app-calendar-cell [date]="day" (dateClicked)="selectDate($event)"></app-calendar-cell>
-                        </th>
-                    }
-                    @for (day of week.afterMonth; let i = $index; track trackByDate(day)) {
-                        <th>
-                            <app-calendar-cell [date]="day" mode="outOfMonth" (dateClicked)="selectDate($event)"></app-calendar-cell>
-                        </th>
-                    }
-                </tr>
-            }
-        </tbody>
-      </table>
+      <app-calendar-body
+        [monthWeeks]="monthWeeks"
+        [mode]="mode"
+        [flagDateSignal]="flagDateSignal()"
+        (onSelectDate)="selectDate($event)"
+      ></app-calendar-body>
         <!-- <mat-calendar [dateClass]="dateClass" [selected]="selectedDate()" (selectedChange)="changeDate($event)"
             [headerComponent]="calendarHeader"></mat-calendar> -->
     </div>
