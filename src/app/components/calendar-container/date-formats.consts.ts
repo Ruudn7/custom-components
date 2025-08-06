@@ -30,7 +30,7 @@ export const DATE_FORMATS = {
 
   export enum IsInMonth {
     IN_MONTH = 'inMonth', 
-    OUT_OF_MONT = 'outOfMonth'
+    OUT_OF_MONTH = 'outOfMonth'
   }
 
   export enum CalendarMode {

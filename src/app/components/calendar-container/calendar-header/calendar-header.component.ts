@@ -19,23 +19,18 @@ import { CalendarMode, MONTHS } from '../date-formats.consts';
   styleUrl: './calendar-header.component.scss',
 })
 export class CalendarHeaderComponent {
-  public periodLabel: WritableSignal<string> = signal<string>('');
-  public flagDate: InputSignal<Date> = input<Date>(new Date());
   public calendarMode = CalendarMode;
-  public mode = input<CalendarMode>(this.calendarMode.MONTH);
   public changePeriod = output<string>();
-  public weekLabel = input<string>('');
+  public flagDate: InputSignal<Date> = input<Date>(new Date());
+  public mode = input<CalendarMode>(this.calendarMode.MONTH);
+  public weekLabel = input<string>();
 
-  constructor() {
-    effect(() => {
-      this.periodLabel.update(() => {
-        const basic = `${ MONTHS[this.flagDate().getMonth()]} ${this.flagDate().getFullYear()}`;
-        return this.mode() === this.calendarMode.MONTH ? basic : `${this.weekLabel()} ${basic}`;
-      });
-    });
-  }
+  public periodLabel = computed(() => {
+    const basic = `${ MONTHS[this.flagDate().getMonth()]} ${this.flagDate().getFullYear()}`;
+    return this.mode() === this.calendarMode.MONTH ? basic : `${this.weekLabel()} ${basic}`;
+  })
 
-  public changePeriodAction(direction = 'prev') {
+  public changePeriodAction(direction: 'prev' | 'next' = 'prev') {
     this.changePeriod.emit(direction);
   }
 }

@@ -1,177 +1,3 @@
-// .cell-container {
-//     position: relative;
-//     width: 100%;
-//     height: 100%;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-
-//     &::before {
-//         content: '';
-//         position: absolute;
-//         inset: 0;
-//         background-color: transparent;
-//         z-index: 0;
-//     }
-
-//     &.inDateRange,
-//     &.inHoverRange {
-//         &::before {
-//             background-color: rgba(63, 81, 181, 0.15);
-//         }
-
-//         .calendar-cell {
-//             background-color: transparent;
-//         }
-//     }
-
-//     &.inHoverRange {
-//         box-sizing: border-box !important;
-//         border-top: 1px dashed blue;
-//         border-bottom: 1px dashed blue;
-//     }
-
-//     &.selectedStart::before {
-//         background: linear-gradient(to left, rgba(63, 81, 181, 0.15) 50%, white 50%);
-//         border-top-left-radius: 999px;
-//         border-bottom-left-radius: 999px;
-//     }
-
-//     &.selectedEnd::before {
-//         background: linear-gradient(to right, rgba(63, 81, 181, 0.15) 50%, white 50%);
-//         border-top-right-radius: 999px;
-//         border-bottom-right-radius: 999px;
-//     }
-// }
-
-// .calendar-cell {
-//     position: relative;
-//     z-index: 1;
-//     width: 100%;
-//     height: 100%;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     border-radius: 50%;
-//     background-color: white;
-//     cursor: pointer;
-
-//     &.outOfMonth {
-//         color: gray;
-//     }
-
-//     &.isActiveDate {
-//         background-color: blue;
-//         color: white;
-//     }
-// }
-
-// .date-number {
-//     width: 100%;
-//     height: 100%;
-//     border-radius: 50%;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-
-//     .isToday & {
-//         outline: 1px solid #3f51b5;
-//         outline-offset: -1px;
-//     }
-
-//     .selectedStart &,
-//     .selectedEnd & {
-//         background-color: #3f51b5;
-//         color: white;
-//     }
-
-//     .selectedStart {
-//         background-color: #3f51b5 !important;
-//         color: white !important;
-
-//         &:not(.inHoverRange) {
-//             .cell-container.selectedStart::before {
-//                 background: transparent;
-//             }
-
-//         }
-//     }
-// }
-
-// .cell-container.hoverIsEnd:not(.selectedStart) {
-//     background: linear-gradient(to right, #3f51b526 50%, white 50%);
-
-//     &::before {
-//         border-top-right-radius: 999px;
-//         border-bottom-right-radius: 999px;
-//         border-top: 1px dashed blue;
-//         border-bottom: 1px dashed blue;
-//         z-index: 100;
-
-//     }
-
-//     .date-number {
-//         border-right: 1px dotted blue;
-//         z-index: -1;
-//     }
-// }
-
-// .cell-container.selectedEnd::before {
-//     background: linear-gradient(to right, rgba(63, 81, 181, 0.15) 50%, white 50%);
-//     border-top-right-radius: 999px;
-//     border-bottom-right-radius: 999px;
-
-//     border-left: 2px solid #3f51b526;
-//     right: 2px;
-// }
-
-// .cell-container.selectedStart {
-//     &::before {
-//         border-top-left-radius: 999px;
-//         border-bottom-left-radius: 999px;
-//         border-right: 2px solid #3f51b526;
-//         left: 2px;
-//     }
-
-
-
-//     &:not(.inHoverRange)::before {
-//         background: linear-gradient(to left, rgba(63, 81, 181, 0.15) 50%, white 50%);
-//         border-top: 1px dashed blue;
-//         border-bottom: 1px dashed blue;
-//     }
-
-//     &.inDateRange::before {
-//         border-top: none;
-//         border-bottom: none;
-//     }
-
-//     &.hoverIsEnd::before {
-//         background: white;
-//         border: none;
-//     }
-
-// }
-
-
-// .date-number {
-//     border-radius: 50%;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     background-color: transparent;
-
-//     .hoverIsEnd:not(.selectedStart) & {
-//         background-color: rgba(0, 0, 0, 0.08);
-//     }
-
-//     .selectedEnd & {
-//         background-color: #3f51b5;
-//         color: white;
-//     }
-// }
-
-
 @mixin dashed-borders($color: blue) {
     border-top: 1px dashed $color;
     border-bottom: 1px dashed $color;
@@ -208,8 +34,8 @@
       z-index: 0;
     }
   
-    &.inDateRange,
-    &.inHoverRange {
+    &.in-date-range,
+    &.in-hover-range {
       &::before {
         background-color: rgba(63, 81, 181, 0.15);
       }
@@ -219,12 +45,12 @@
       }
     }
   
-    &.inHoverRange {
+    &.in-hover-range {
       box-sizing: border-box !important;
       @include dashed-borders(blue);
     }
   
-    &.hoverIsEnd:not(.selectedStart) {
+    &.hover-is-end:not(.selected-start) {
       background: linear-gradient(to right, #3f51b526 50%, white 50%);
   
       &::before {
@@ -239,36 +65,36 @@
       }
     }
   
-    &.selectedStart::before {
+    &.selected-start::before {
       @include range-gradient(left);
       @include range-radius(left);
     }
   
-    &.selectedEnd::before {
+    &.selected-end::before {
       @include range-gradient(right);
       @include range-radius(right);
       border-left: 2px solid #3f51b526;
       right: 2px;
     }
   
-    &.selectedStart {
+    &.selected-start {
       &::before {
         @include range-radius(left);
         border-right: 2px solid #3f51b526;
         left: 2px;
       }
   
-      &:not(.inHoverRange)::before {
+      &:not(.in-hover-range)::before {
         @include range-gradient(left);
         @include dashed-borders(blue);
       }
   
-      &.inDateRange::before {
+      &.in-date-range::before {
         border-top: none;
         border-bottom: none;
       }
   
-      &.hoverIsEnd::before {
+      &.hover-is-end::before {
         background: white;
         border: none;
       }
@@ -288,7 +114,7 @@
     background-color: white;
     cursor: pointer;
   
-    &.outOfMonth {
+    &.out-of-month {
       color: gray;
     }
   
@@ -308,27 +134,27 @@
     align-items: center;
     background-color: transparent;
   
-    .isToday & {
+    .is-today & {
       outline: 1px solid #3f51b5;
       outline-offset: -1px;
     }
   
-    .selectedStart &,
-    .selectedEnd & {
+    .selected-start &,
+    .selected-end & {
       background-color: #3f51b5;
       color: white;
     }
   
-    .hoverIsEnd:not(.selectedStart) & {
+    .hover-is-end:not(.selected-start) & {
       background-color: rgba(0, 0, 0, 0.08);
     }
   
-    .selectedStart & {
+    .selected-start & {
       background-color: #3f51b5 !important;
       color: white !important;
     }
   
-    .selectedEnd & {
+    .selected-end & {
       background-color: #3f51b5;
       color: white;
     }

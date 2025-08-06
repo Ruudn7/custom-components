@@ -9,12 +9,10 @@ export class CalendarRangeManageService {
   private _hoverDate: WritableSignal<Date | null> = signal<Date | null>(null);
   private _rangeModeOn: WritableSignal<Boolean> = signal<Boolean>(false);
   
-
   public startDate: Signal<Date | null> = this._startDate.asReadonly();
   public endDate: Signal<Date | null> = this._endDate.asReadonly();
   public rangeModeOn: Signal<Boolean> = this._rangeModeOn.asReadonly();
   public hoverDate: Signal<Date | null> = this._hoverDate.asReadonly();
-
 
   public setRangeMode(isOn = true): void {
     this._rangeModeOn.set(isOn);
@@ -48,8 +46,6 @@ export class CalendarRangeManageService {
     } else {
       this.setEndDate(date);
     }
-  
-
   }
 
   public isStart(date: Date): boolean {

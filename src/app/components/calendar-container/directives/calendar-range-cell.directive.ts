@@ -40,31 +40,31 @@ export class CalendarRangeCellDirective {
     this.rangeService.setHoverDate(this.date());
   }
 
-  @HostBinding('class.selectedStart') get isStart() {
+  @HostBinding('class.selected-start') get isStart() {
     return this.rangeService.isStart(this.date());
   }
 
-  @HostBinding('class.selectedEnd') get isEnd() {
+  @HostBinding('class.selected-end') get isEnd() {
     return this.rangeService.isEnd(this.date());
   }
 
-  @HostBinding('class.inHoverRange') get hoverRange() {
+  @HostBinding('class.in-hover-range') get hoverRange() {
     return this.isInHoverRange();
   }
 
-  @HostBinding('class.inDateRange') get dateRange() {
+  @HostBinding('class.in-date-range') get dateRange() {
     return this.isInDateRange();
   }
 
-  @HostBinding('class.isToday') get isToday() {
+  @HostBinding('class.is-today') get isToday() {
     return dayjs(this.date()).isSame(new Date(), 'day');
   }
 
-  @HostBinding('class.outOfMonth') get isOutOfMonth() {
+  @HostBinding('class.out-of-month') get isOutOfMonth() {
     return false;
   }
 
-  @HostBinding('class.hoverIsEnd') get isHoverEnd() {
+  @HostBinding('class.hover-is-end') get isHoverEnd() {
     const start = this.rangeService.startDate();
     const end = this.rangeService.endDate();
     const hover = this.rangeService.hoverDate();

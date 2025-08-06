@@ -46,12 +46,12 @@ export class CalendarContainerComponent {
   public monthWeeks: MonthWeek[] = [];
 
   public weekPeriodVisibleIndex = computed(() => {
-    this.monthWeeks.find(el => el.fullWeek.some(el => this.isSameDate(el, this.flagDateSignal())));
-      return this.monthWeeks.findIndex(el => el.fullWeek.some(el => this.isSameDate(el, this.flagDateSignal())))
-    
+    const index = this.monthWeeks.findIndex(el => el.fullWeek.some(el => this.isSameDate(el, this.flagDateSignal())));
+
+    return index === -1 ? 0 : index;
   });
 
-  private readonly calendarrangeServ = inject(CalendarRangeManageService);
+  private readonly calendarRangeServ = inject(CalendarRangeManageService);
 
   constructor() {
     effect(() => {
@@ -61,25 +61,9 @@ export class CalendarContainerComponent {
 
   public changePeriodAction(direction = 'prev') {
     if (this.mode === this.calendarMode.MONTH) {
-      if (direction === 'prev') {
-        this.flagDateSignal.update((prevDate) =>
-          dayjs(prevDate).add(-1, 'month').startOf('month').toDate()
-        );
-      } else {
-        this.flagDateSignal.update((prevDate) =>
-          dayjs(prevDate).add(1, 'month').startOf('month').toDate()
-        );
-      }
+      this.monthChangePeriod(direction);
     } else {
-      if (direction === 'prev') {
-        this.flagDateSignal.update((prevDate) =>
-          dayjs(prevDate).add(-1, 'week').startOf('isoWeek').toDate()
-        );
-      } else {
-        this.flagDateSignal.update((prevDate) =>
-          dayjs(prevDate).add(1, 'week').startOf('isoWeek').toDate()
-        );
-      }
+      this.weekChangePeriod(direction);
     }
 
   }
@@ -93,16 +77,7 @@ export class CalendarContainerComponent {
   }
 
   public rangeMode(): void {
-    this.calendarrangeServ.setRangeMode(!this.calendarrangeServ.rangeModeOn());
-  }
-
-  private isSameDate(date: Date, dateToComapre: Date): boolean {
-  
-    return (
-      date.getDate() === dateToComapre.getDate() &&
-      date.getMonth() === dateToComapre.getMonth() &&
-      date.getFullYear() === dateToComapre.getFullYear()
-    );
+    this.calendarRangeServ.setRangeMode(!this.calendarRangeServ.rangeModeOn());
   }
 
   public changeMode() {
@@ -112,5 +87,33 @@ export class CalendarContainerComponent {
   public trackByDate(date: Date): number {
     return date.getTime();
   }  
+
+  private monthChangePeriod(direction: string) {
+    if (direction === 'prev') {
+      this.flagDateSignal.update((prevDate) =>
+        dayjs(prevDate).add(-1, 'month').startOf('month').toDate()
+      );
+    } else {
+      this.flagDateSignal.update((prevDate) =>
+        dayjs(prevDate).add(1, 'month').startOf('month').toDate()
+      );
+    }
+  }
+
+  private weekChangePeriod(direction: string) {
+    if (direction === 'prev') {
+      this.flagDateSignal.update((prevDate) =>
+        dayjs(prevDate).add(-1, 'week').startOf('isoWeek').toDate()
+      );
+    } else {
+      this.flagDateSignal.update((prevDate) =>
+        dayjs(prevDate).add(1, 'week').startOf('isoWeek').toDate()
+      );
+    }
+  }
+
+  private isSameDate(date: Date, dateToComapre: Date): boolean {
+    return dayjs(date).isSame(dateToComapre, 'day') ;
+  }
 
 }
