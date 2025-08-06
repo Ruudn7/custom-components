@@ -115,7 +115,7 @@ export class CalendarContainerComponent implements AfterViewInit {
   }
 
   public rangeMode(): void {
-    this.calendarrangeServ.setRangeMode(true);
+    this.calendarrangeServ.setRangeMode(!this.calendarrangeServ.rangeModeOn());
   }
 
   private isSameDate(date: Date, dateToComapre: Date): boolean {

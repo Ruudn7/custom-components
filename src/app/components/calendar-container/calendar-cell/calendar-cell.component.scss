@@ -1,32 +1,222 @@
-.outOfMonth {
-    background-color: black;
-    color: white;
-}
+// .outOfMonth {
+//     background-color: black;
+//     color: white;
+// }
 
-.isToday {
-    border: 1px solid blue;
-}
+// .isToday {
+//     border: 1px solid blue;
+//     box-sizing: border-box;
 
-.calendat-cell {
-    cursor: pointer;
+// }
 
-    &:focus, &:active {
-        background-color: yellow;
+// .calendat-cell {
+//     cursor: pointer;
+//     height: 32px;
+//     display: flex;
+
+//     box-sizing: border-box;
+//     & >div.date-number {
+//         margin: auto;
+//     }
+
+//     &:focus, &:active {
+//         background-color: yellow;
+//     }
+
+//     &.inHoverRange {
+//         background-color: lightblue;
+//     }
+
+//     &.inDateRange {
+//         background-color: blue;
+//     }
+
+//     &.selectedStart {
+//         border: 2px solid black;
+//     }
+
+//     &.selectedEnd {
+//         border: 2px solid red;
+//     }
+// }
+
+.cell-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: transparent;
+      z-index: 0;
+    }
+  
+    // Zakres aktywny (hover albo selected)
+    &.inDateRange,
+    &.inHoverRange {
+        &::before {
+            background-color: rgba(63, 81, 181, 0.15); // 💙 Material Indigo-ish
+        }
+
+        .calendar-cell {
+            background-color: transparent;
+        }
     }
 
     &.inHoverRange {
-        background-color: lightblue;
+        box-sizing: border-box !important;
+        border-top: 1px dashed blue;
+        border-bottom: 1px dashed blue;
+    }
+  
+    // Początek zakresu
+    &.selectedStart::before {
+      background: linear-gradient(to left, rgba(63, 81, 181, 0.15) 50%, white 50%);
+      border-top-left-radius: 999px;
+      border-bottom-left-radius: 999px;
+    }
+  
+    // Koniec zakresu
+    &.selectedEnd::before {
+      background: linear-gradient(to right, rgba(63, 81, 181, 0.15) 50%, white 50%);
+      border-top-right-radius: 999px;
+      border-bottom-right-radius: 999px;
+    }
+  }
+  
+  .calendar-cell {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: white;
+
+    &.outOfMonth {
+        color: gray;
+    }
+  }
+  
+  .date-number {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    // Dzisiejszy dzień
+    .isToday & {
+      outline: 1px solid #3f51b5;
+      outline-offset: -1px;
+    }
+  
+    // selectedStart i selectedEnd też mają nieco podbity wygląd
+    .selectedStart &,
+    .selectedEnd & {
+      background-color: #3f51b5;
+      color: white;
     }
 
-    &.inDateRange {
-        background-color: blue;
+    .selectedStart {
+      background-color: #3f51b5 !important;
+      color: white !important;
+
+      &:not(.inHoverRange) {
+        .cell-container.selectedStart::before {
+            background: transparent;
+        }
+
+      }
+    }
+  }
+  
+//   .cell-container.hoverIsEnd::before {
+//     background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 50%, white 50%);
+//     border-top: 1px dashed #3f51b5;
+//     border-bottom: 1px dashed #3f51b5;
+//     border-top-right-radius: 999px;
+//     border-bottom-right-radius: 999px;
+//   }
+
+
+  .cell-container.hoverIsEnd:not(.selectedStart) {
+    background: linear-gradient( to right, #3f51b526 50%, white 50%);
+    &::before {
+        border-top-right-radius: 999px;
+        border-bottom-right-radius: 999px;
+        border-top: 1px dashed blue;  // 💡 nowość
+        border-bottom: 1px dashed blue;
+        z-index: 100;
+        
+      }
+
+      .date-number {
+        border-right: 1px dotted blue;
+        z-index: -1;
+      }
+  }
+
+  .cell-container.selectedEnd::before {
+    background: linear-gradient(to right, rgba(63, 81, 181, 0.15) 50%, white 50%);
+    border-top-right-radius: 999px;
+    border-bottom-right-radius: 999px;
+
+    border-left: 2px solid #3f51b526;
+    right: 2px;
+  }
+
+  .cell-container.selectedStart{
+    &::before {
+        border-top-left-radius: 999px;
+        border-bottom-left-radius: 999px;
+        border-right: 2px solid #3f51b526;
+        left: 2px;
     }
 
-    &.selectedStart {
-        border: 2px solid black;
+    
+
+    &:not(.inHoverRange)::before {
+        background: linear-gradient(to left, rgba(63, 81, 181, 0.15) 50%, white 50%);
+        border-top: 1px dashed blue;  // 💡 nowość
+        border-bottom: 1px dashed blue;
     }
 
-    &.selectedEnd {
-        border: 2px solid red;
+    &.inDateRange::before {
+        border-top: none;  // 💡 nowość
+        border-bottom: none;
     }
-}
+
+    &.hoverIsEnd::before {
+        background: white;
+        border: none;
+    }
+
+  }
+  
+
+  .date-number {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+  
+    .hoverIsEnd:not(.selectedStart) & {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+  
+    .selectedEnd & {
+      background-color: #3f51b5;
+      color: white;
+    }
+  }
+  

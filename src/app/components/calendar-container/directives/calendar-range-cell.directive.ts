@@ -28,21 +28,18 @@ export class CalendarRangeCellDirective {
     if (!this.startDate() || !this.endDate()) {
       return false;
     } else {
-      return !!(this.startDate() && this.endDate() && dayjs(this.date()).isAfter(this.startDate(), 'day') && dayjs(this.date()).isBefore(this.endDate(), 'day'));
+      return !!(this.startDate() && this.endDate() && (dayjs(this.date()).isAfter(this.startDate(), 'day') || dayjs(this.date()).isSame(this.startDate(), 'day')) && (dayjs(this.date()).isBefore(this.endDate(), 'day')));
     }
   })
 
   
-  @HostListener('click')
-  onClick() {
+  @HostListener('click') onClick() {
     this.rangeService.setRangeDate(this.date());
   }
 
-  @HostListener('mouseenter')
-  onHover() {
+  @HostListener('mouseenter') onHover() {
     this.rangeService.setHoverDate(this.date());
   }
-
 
   @HostBinding('class.selectedStart') get isStart() {
     return this.rangeService.isStart(this.date());
@@ -65,8 +62,25 @@ export class CalendarRangeCellDirective {
   }
 
   @HostBinding('class.outOfMonth') get isOutOfMonth() {
-    // możesz dodać input @Input() currentMonth: number i porównywać
     return false;
+  }
+
+  @HostBinding('class.hoverIsEnd') get isHoverEnd() {
+    const start = this.rangeService.startDate();
+    const end = this.rangeService.endDate();
+    const hover = this.rangeService.hoverDate();
+    const current = this.date();
+  
+    if (!start || !hover || end) return false;
+  
+    const isHoverBeforeStart = dayjs(hover).isBefore(start, 'day');
+  
+    if (isHoverBeforeStart) {
+      return dayjs(current).isSame(start, 'day');
+    }
+  
+    return dayjs(current).isSame(hover, 'day');
+  
   }
 
 }
