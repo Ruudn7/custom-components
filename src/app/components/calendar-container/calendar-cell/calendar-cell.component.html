@@ -1,6 +1,6 @@
 @if(rangeMode()) {
     <div class="cell-container" appCalendarRangeCell [date]="date()">
-        <div  class="calendar-cell" tabindex="0" [class.outOfMonth]="mode() === 'outOfMonth'" [class.isToday]="isToday"  (click)="selectDate()">
+        <div  class="calendar-cell" tabindex="0" [class.outOfMonth]="mode() === 'outOfMonth'" [class.isToday]="isToday">
             <div class="date-number">{{displayDate}}</div>
         </div>
     </div>
@@ -8,7 +8,7 @@
     
 } @else {
     <div class="cell-container">
-        <div class="calendar-cell" tabindex="0" [class.outOfMonth]="mode() === 'outOfMonth'" [class.isToday]="isToday"  (click)="selectDate()">
+        <div class="calendar-cell" tabindex="0" [class.outOfMonth]="mode() === 'outOfMonth'" [class.isToday]="isToday" [class.isActiveDate]="isSelectedDate()"  (click)="selectDate()">
             <div class="date-number">{{displayDate}}</div>
         </div>
         

@@ -10,7 +10,7 @@ export const DATE_FORMATS = {
     },
   };
   
-  export const CALENDAR_DAYS_LABELS = [ 'nd', 'pn', 'wt', 'śr', 'czw', 'pt', 'sb'];
+  export const CALENDAR_DAYS_LABELS = [ 'pn', 'wt', 'śr', 'czw', 'pt', 'sb', 'nd'];
   
   export const CALENDAR_SHORT_DAYS: string[] = ['pn', 'wt', 'śr', 'czw', 'pt', 'sb', 'nd'];
   

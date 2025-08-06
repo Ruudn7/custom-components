@@ -6,28 +6,20 @@ import {
   computed,
   effect,
   inject,
-  Renderer2,
   signal,
-  WritableSignal,
+  WritableSignal
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  NativeDateModule,
-  provideNativeDateAdapter,
+  NativeDateModule
 } from '@angular/material/core';
-import { CalendarHeaderComponent } from './calendar-header/calendar-header.component';
-import { DATE_FORMATS } from './date-formats.consts';
-import { PolishFullDayAdapter } from './day-adapter';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
-import { MonthWeek } from './calendar.interface';
-import { buildMonthWeeks } from './utils';
-import { CalendarCellComponent } from './calendar-cell/calendar-cell.component';
-import { WeekByDatePipe } from './pipe/week-by-date.pipe';
 import { CalendarBodyComponent } from './calendar-body/calendar-body.component';
+import { CalendarHeaderComponent } from './calendar-header/calendar-header.component';
+import { MonthWeek } from './calendar.interface';
 import { CalendarRangeManageService } from './service/calendar-range-manage.service';
+import { buildMonthWeeks } from './utils';
 
 dayjs.extend(isoWeek);
 
@@ -43,9 +35,6 @@ dayjs.extend(isoWeek);
     CalendarBodyComponent
   ],
   providers: [
-    provideNativeDateAdapter(),
-    { provide: DateAdapter, useClass: PolishFullDayAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
     CalendarRangeManageService
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -63,14 +52,8 @@ export class CalendarContainerComponent implements AfterViewInit {
 
   private readonly calendarrangeServ = inject(CalendarRangeManageService);
 
-  constructor(
-    private dateAdapter: DateAdapter<Date>,
-    private renderer: Renderer2
-  ) {
-    this.dateAdapter.setLocale('pl-PL');
-
+  constructor() {
     effect(() => {
-      console.log(buildMonthWeeks(this.flagDateSignal()));
       this.monthWeeks = buildMonthWeeks(this.flagDateSignal());
     });
   }
@@ -107,7 +90,7 @@ export class CalendarContainerComponent implements AfterViewInit {
   }
 
   public selectDate(date: Date) {
-    console.log(date)
+    this.flagDateSignal.set(date)
   }
 
   public resetDate(): void {

@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { CalendarContainerComponent } from './components/calendar-container/calendar-container.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CalendarContainerComponent],
+  imports: [ CalendarContainerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
