@@ -27,3 +27,13 @@ export const DATE_FORMATS = {
     'styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec',
     'lipiec', 'sierpień', 'wrzesień', 'październik', 'listopad', 'grudzień'
   ]; 
+
+  export enum IsInMonth {
+    IN_MONTH = 'inMonth', 
+    OUT_OF_MONT = 'outOfMonth'
+  }
+
+  export enum CalendarMode {
+    MONTH = 'month',
+    WEEK = 'week'
+  }

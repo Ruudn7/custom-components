@@ -1,17 +1,21 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { MonthWeek } from '../calendar.interface';
+import { CalendarMode } from '../date-formats.consts';
 
 @Pipe({
   name: 'weekByDate',
   standalone: true,
 })
 export class WeekByDatePipe implements PipeTransform {
+
+  public calendarMode = CalendarMode;
+
   transform(
     weeks: MonthWeek[],
     date: Date,
-    mode: 'month' | 'week'
+    mode: CalendarMode
   ): MonthWeek[] {
-    if (mode === 'week') {
+    if (mode === this.calendarMode.WEEK) {
       const found = weeks.find((week) =>
         week.fullWeek.some(
           (dayOfWeek: Date) =>

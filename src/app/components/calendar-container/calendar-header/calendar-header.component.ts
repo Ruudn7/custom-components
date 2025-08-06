@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MONTHS } from '../date-formats.consts';
+import { CalendarMode, MONTHS } from '../date-formats.consts';
 
 @Component({
   selector: 'app-calendar-header',
@@ -19,23 +19,18 @@ import { MONTHS } from '../date-formats.consts';
   styleUrl: './calendar-header.component.scss',
 })
 export class CalendarHeaderComponent {
-  periodLabel: WritableSignal<string> = signal<string>('');
-  flagDate: InputSignal<Date> = input<Date>(new Date());
-  mode = input<'month' | 'week'>('month');
-  changePeriod = output<string>();
-  weekLabel = input<string>('');
-
-  adjacentMonthNames = computed(() => {
-    this.flagDate();
-
-    console.log(this.flagDate());
-  });
+  public periodLabel: WritableSignal<string> = signal<string>('');
+  public flagDate: InputSignal<Date> = input<Date>(new Date());
+  public calendarMode = CalendarMode;
+  public mode = input<CalendarMode>(this.calendarMode.MONTH);
+  public changePeriod = output<string>();
+  public weekLabel = input<string>('');
 
   constructor() {
     effect(() => {
       this.periodLabel.update(() => {
         const basic = `${ MONTHS[this.flagDate().getMonth()]} ${this.flagDate().getFullYear()}`;
-        return this.mode() === 'month' ? basic : `${this.weekLabel()} ${basic}`;
+        return this.mode() === this.calendarMode.MONTH ? basic : `${this.weekLabel()} ${basic}`;
       });
     });
   }

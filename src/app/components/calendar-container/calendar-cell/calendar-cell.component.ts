@@ -1,5 +1,6 @@
 import { Component, computed, input, InputSignal, output } from '@angular/core';
 import { CalendarRangeCellDirective } from '../directives/calendar-range-cell.directive';
+import { IsInMonth } from '../date-formats.consts';
 
 @Component({
   selector: 'app-calendar-cell',
@@ -9,8 +10,9 @@ import { CalendarRangeCellDirective } from '../directives/calendar-range-cell.di
 })
 export class CalendarCellComponent {
 
+  isInMonth = IsInMonth;
   date: InputSignal<Date> = input.required<Date>();
-  mode: InputSignal<'inMonth' | 'outOfMonth'> = input<'inMonth' | 'outOfMonth'>('inMonth');
+  mode: InputSignal<IsInMonth> = input<IsInMonth>(this.isInMonth.IN_MONTH);
   selectedDate: InputSignal<Date> = input.required<Date>();
 
   dateClicked = output<Date>();
@@ -24,11 +26,7 @@ export class CalendarCellComponent {
     const selectedDate = this.selectedDate();
     const date = this.date();
 
-    return (
-      date.getDate() === selectedDate.getDate() &&
-      date.getMonth() === selectedDate.getMonth() &&
-      date.getFullYear() === selectedDate.getFullYear()
-    );
+    return this.dateCompare(selectedDate, date);
   });
 
   selectDate(): void {
@@ -39,10 +37,14 @@ export class CalendarCellComponent {
     const today = new Date();
     const date = this.date();
   
+    return this.dateCompare(today, date);
+  }
+
+  private dateCompare(date1: Date, date2: Date): boolean {
     return (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
+      date1.getDate() === date2.getDate() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getFullYear() === date2.getFullYear()
     );
   }
 }

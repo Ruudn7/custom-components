@@ -32,7 +32,6 @@ export class CalendarRangeCellDirective {
     }
   })
 
-  
   @HostListener('click') onClick() {
     this.rangeService.setRangeDate(this.date());
   }

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -18,6 +17,7 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import { CalendarBodyComponent } from './calendar-body/calendar-body.component';
 import { CalendarHeaderComponent } from './calendar-header/calendar-header.component';
 import { MonthWeek } from './calendar.interface';
+import { CalendarMode } from './date-formats.consts';
 import { CalendarRangeManageService } from './service/calendar-range-manage.service';
 import { buildMonthWeeks } from './utils';
 
@@ -39,9 +39,10 @@ dayjs.extend(isoWeek);
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CalendarContainerComponent implements AfterViewInit {
+export class CalendarContainerComponent {
   public flagDateSignal: WritableSignal<Date> = signal(new Date());
-  public mode: 'month' | 'week' = 'month';
+  public calendarMode = CalendarMode;
+  public mode: CalendarMode = this.calendarMode.MONTH;
   public monthWeeks: MonthWeek[] = [];
 
   public weekPeriodVisibleIndex = computed(() => {
@@ -58,14 +59,8 @@ export class CalendarContainerComponent implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {}
-
-  public goToToday() {
-    console.log('goToToday');
-  }
-
   public changePeriodAction(direction = 'prev') {
-    if (this.mode === 'month') {
+    if (this.mode === this.calendarMode.MONTH) {
       if (direction === 'prev') {
         this.flagDateSignal.update((prevDate) =>
           dayjs(prevDate).add(-1, 'month').startOf('month').toDate()
@@ -111,7 +106,7 @@ export class CalendarContainerComponent implements AfterViewInit {
   }
 
   public changeMode() {
-    this.mode = this.mode === 'month' ? 'week' : 'month';
+    this.mode = this.mode === this.calendarMode.MONTH ? this.calendarMode.WEEK : this.calendarMode.MONTH;
   }
 
   public trackByDate(date: Date): number {

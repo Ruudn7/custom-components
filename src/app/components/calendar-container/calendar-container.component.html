@@ -5,10 +5,8 @@
         <button (click)="changeMode()">cahnge mode</button>
         <button (click)="rangeMode()">range mode</button>
 
-        {{weekPeriodVisibleIndex()}}
     <app-calendar-header
         [mode]="mode"
-        (goToToday)="goToToday()"
         (changePeriod)="changePeriodAction($event)"
         [flagDate]="flagDateSignal()"
         [weekLabel]="monthWeeks[weekPeriodVisibleIndex()].label"

@@ -10,7 +10,7 @@
             <tr>
                 @for (day of week.beforeMonth; let i = $index; track trackByDate(day)) {
                     <th>
-                        <app-calendar-cell [rangeMode]="rangeMode()" [date]="day" [selectedDate]="selectedDate()" mode="outOfMonth" (dateClicked)="selectDate($event)"></app-calendar-cell>
+                        <app-calendar-cell [rangeMode]="rangeMode()" [date]="day" [selectedDate]="selectedDate()" [mode]="isInMonth.OUT_OF_MONT" (dateClicked)="selectDate($event)"></app-calendar-cell>
                     </th>
                 }
                 @for (day of week.inMonth; let i = $index; track trackByDate(day)) {
@@ -20,7 +20,7 @@
                 }
                 @for (day of week.afterMonth; let i = $index; track trackByDate(day)) {
                     <th>
-                        <app-calendar-cell [rangeMode]="rangeMode()" [date]="day" [selectedDate]="selectedDate()" mode="outOfMonth" (dateClicked)="selectDate($event)"></app-calendar-cell>
+                        <app-calendar-cell [rangeMode]="rangeMode()" [date]="day" [selectedDate]="selectedDate()" [mode]="isInMonth.OUT_OF_MONT" (dateClicked)="selectDate($event)"></app-calendar-cell>
                     </th>
                 }
             </tr>
