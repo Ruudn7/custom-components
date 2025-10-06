@@ -9,10 +9,10 @@
         [mode]="mode"
         (changePeriod)="changePeriodAction($event)"
         [flagDate]="flagDateSignal()"
-        [weekLabel]="monthWeeks[weekPeriodVisibleIndex()].label"
+        [weekLabel]="monthWeeks()[weekPeriodVisibleIndex()].label"
       ></app-calendar-header>
       <app-calendar-body
-        [monthWeeks]="monthWeeks"
+        [monthWeeks]="monthWeeks()"
         [mode]="mode"
         [flagDateSignal]="flagDateSignal()"
         (onSelectDate)="selectDate($event)"

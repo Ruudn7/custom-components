@@ -21,7 +21,7 @@
                 @for (day of week.afterMonth; let i = $index; track trackByDate(day)) {
                     <th>
                         <app-calendar-cell [rangeMode]="rangeMode()" [date]="day" [selectedDate]="selectedDate()" [mode]="isInMonth.OUT_OF_MONTH" (dateClicked)="selectDate($event)"></app-calendar-cell>
-                    </th>
+                </th>
                 }
             </tr>
         }

@@ -43,21 +43,16 @@ export class CalendarContainerComponent {
   public flagDateSignal: WritableSignal<Date> = signal(new Date());
   public calendarMode = CalendarMode;
   public mode: CalendarMode = this.calendarMode.MONTH;
-  public monthWeeks: MonthWeek[] = [];
+  public readonly monthWeeks = computed(() => buildMonthWeeks(this.flagDateSignal()));
 
   public weekPeriodVisibleIndex = computed(() => {
-    const index = this.monthWeeks.findIndex(el => el.fullWeek.some(el => this.isSameDate(el, this.flagDateSignal())));
+    const index = this.monthWeeks().findIndex(el => el.fullWeek.some(el => this.isSameDate(el, this.flagDateSignal())));
 
     return index === -1 ? 0 : index;
   });
 
   private readonly calendarRangeServ = inject(CalendarRangeManageService);
 
-  constructor() {
-    effect(() => {
-      this.monthWeeks = buildMonthWeeks(this.flagDateSignal());
-    });
-  }
 
   public changePeriodAction(direction = 'prev') {
     if (this.mode === this.calendarMode.MONTH) {
